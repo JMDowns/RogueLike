@@ -1,7 +1,7 @@
 from components.ai import ConfusedMonster
 from game_messages import Message
 
-def heal(*args, **kwargs):
+def drink(*args, **kwargs):
     entity = args[0]
     colors = args[1]
     amount = kwargs.get('amount')
@@ -9,14 +9,14 @@ def heal(*args, **kwargs):
     results = []
 
     if entity.fighter.hp == entity.fighter.max_hp:
-        results.append({'consumed': False, 'message': Message('You are already at full health.', colors.get('yellow'))})
+        results.append({'consumed': False, 'message': Message('You are already at full alertness.', colors.get('yellow'))})
     else:
         entity.fighter.heal(amount)
-        results.append({'consumed': True, 'message': Message('Your wounds have healed!', colors.get('green'))})
+        results.append({'consumed': True, 'message': Message('You feel a rush of energy!', colors.get('green'))})
 
     return results
 
-def cast_lightning(*args, **kwargs):
+def backtrace(*args, **kwargs):
     caster = args[0]
     colors = args[1]
     entities = kwargs.get('entities')
@@ -37,14 +37,14 @@ def cast_lightning(*args, **kwargs):
                 target = entity
                 closest_distance = distance
     if target:
-        results.append({'consumed':True, 'target':target, 'message': Message('A lightning bolt strikes the {0} with a loud thunder! The damage is {1}'.format(target.name, damage))})
+        results.append({'consumed':True, 'target':target, 'message': Message('You backtrace the {0} with a scrutinizing gaze! The damage is {1}'.format(target.name, damage))})
         results.extend(target.fighter.take_damage(damage))
     else:
-        result.append({'consumed': False, 'target': None, 'message': Message('No enemy is close enough to strike.', colors.get('red'))})
+        result.append({'consumed': False, 'target': None, 'message': Message('No error is present.', colors.get('red'))})
 
     return results
 
-def cast_fireball(*args, **kwargs):
+def search_stack(*args, **kwargs):
     colors = args[1]
     entities = kwargs.get('entities')
     game_map = kwargs.get('game_map')
@@ -56,23 +56,23 @@ def cast_fireball(*args, **kwargs):
     results = []
 
     if not game_map.fov[target_x, target_y]:
-        results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.',
+        results.append({'consumed': False, 'message': Message("You cannot search an error that doesn't exist.",
                                                               colors.get('yellow'))})
         return results
 
     results.append({'consumed': True,
-                    'message': Message('The fireball explodes, burning everything within {0} tiles!'.format(radius),
+                    'message': Message('Stack Overflow helps solve every error within {0} tiles!'.format(radius),
                                        colors.get('orange'))})
 
     for entity in entities:
         if entity.distance(target_x, target_y) <= radius and entity.fighter:
-            results.append({'message': Message('The {0} gets burned for {1} hit points.'.format(entity.name, damage),
+            results.append({'message': Message('The {0} gets solved for {1} hit points.'.format(entity.name, damage),
                                                colors.get('orange'))})
             results.extend(entity.fighter.take_damage(damage))
 
     return results
 
-def cast_confuse(*args, **kwargs):
+def confuse_error(*args, **kwargs):
     colors = args[1]
     entities = kwargs.get('entities')
     game_map = kwargs.get('game_map')
@@ -82,7 +82,7 @@ def cast_confuse(*args, **kwargs):
     results = []
 
     if not game_map.fov[target_x, target_y]:
-        results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.',
+        results.append({'consumed': False, 'message': Message("You cannot target an error that doesn't exist.",
                                                               colors.get('yellow'))})
         return results
 
@@ -93,12 +93,12 @@ def cast_confuse(*args, **kwargs):
             confused_ai.owner = entity
             entity.ai = confused_ai
 
-            results.append({'consumed': True, 'message': Message('The eyes of the {0} look vacant as they starts to stumble around.'.format(entity.name),
+            results.append({'consumed': True, 'message': Message('The {0} itself looks confused!.'.format(entity.name),
                                                                  colors.get('light_green'))})
 
             break
     else:
-        results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.',
+        results.append({'consumed': False, 'message': Message('There is no targetable error at that location.',
                                                               colors.get('yellow'))})
 
     return results

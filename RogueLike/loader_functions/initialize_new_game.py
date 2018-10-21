@@ -1,14 +1,17 @@
 from components.fighter import Fighter
 from components.inventory import Inventory
 from components.levels import Level
+from components.equipment import Equipment
+from components.equippable import Equippable
 from entity import Entity
+from equipment_slots import EquipmentSlots
 from game_messages import MessageLog
 from game_states import GameStates
 from map_utils import GameMap, make_map
 from render_functions import RenderOrder
 
 def get_constants():
-    window_title = 'Dark Dungeons of Doom'
+    window_title = 'Hello World!'
 
     screen_width = 80
     screen_height = 50
@@ -56,7 +59,9 @@ def get_constants():
         'light_cyan': (114, 255, 255),
         'light_pink': (255, 114, 184),
         'light_yellow': (255, 255, 114),
-        'light_violet': (184, 114, 255)
+        'light_violet': (184, 114, 255),
+        'sky': (0, 191, 255),
+        'darker_orange': (127, 63, 0)
     }
 
     constants = {
@@ -85,12 +90,19 @@ def get_constants():
     return constants
 
 def get_game_variables(constants):
-    fighter_component = Fighter(hp=100, defense=1, power=4)
+    fighter_component = Fighter(hp=100, defense=1, power=2)
     inventory_component = Inventory(26)
     level_component = Level()
-    player = Entity(0, 0, '@', (255, 255, 255), 'Player', blocks=True, render_order=RenderOrder.ACTOR,
-                    fighter=fighter_component, inventory=inventory_component, level=level_component)
+    equipment_component = Equipment()
+    player = Entity(0, 0, '@', (255, 255, 255), 'Program', blocks=True, render_order=RenderOrder.ACTOR,
+                    fighter=fighter_component, inventory=inventory_component, level=level_component,
+                    equipment=equipment_component)
     entities = [player]
+
+    equippable_component = Equippable(EquipmentSlots.MAIN_HAND, power_bonus=2)
+    text_editor = Entity(0, 0, '-', constants['colors'].get('sky'), 'Text Editor', equippable=equippable_component)
+    player.inventory.add_item(text_editor, constants['colors'])
+    player.equipment.toggle_equip(text_editor)
 
     game_map = GameMap(constants['map_width'], constants['map_height'])
     make_map(game_map, constants['max_rooms'], constants['room_min_size'],

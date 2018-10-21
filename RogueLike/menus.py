@@ -32,32 +32,40 @@ def menu(con, root, header, options, width, screen_width, screen_height):
     y = screen_height // 2 - height // 2
     root.blit(window, x, y, width, height, 0, 0)
 
-def inventory_menu(con, root, header, inventory, inventory_width, screen_width, screen_height):
+def inventory_menu(con, root, header, player, inventory_width, screen_width, screen_height):
     # show a menu with each item of the inventory as an option
-    if len(inventory.items) == 0:
+    if len(player.inventory.items) == 0:
         options = ['Inventory is empty.']
     else:
-        options = [item.name for item in inventory.items]
+        options = []
+
+        for item in player.inventory.items:
+            if player.equipment.main_hand == item:
+                options.append(f'{item.name} (on main hand)')
+            elif player.equipment.off_hand == item:
+                options.append(f'{item.name} (on off hand)')
+            else:
+                options.append(item.name)
 
     menu(con, root, header, options, inventory_width, screen_width, screen_height)
 
 def main_menu(con, root_console, background_image, screen_width, screen_height, colors):
     background_image.blit_2x(root_console, 0, 0)
 
-    title = 'DARK DUNGEONS OF DOOM'
+    title = 'HELLO WORLD!'
     center = (screen_width - len(title)) // 2
-    root_console.draw_str(center, screen_height // 2 - 4, title, bg=None, fg=colors.get('light_yellow'))
+    root_console.draw_str(center, screen_height // 2 - 4, title, bg=None, fg=colors.get('black'))
 
     title = 'By the Best Boys K-State'
     center = (screen_width - len(title)) // 2
-    root_console.draw_str(center, screen_height - 2, title, bg=None, fg=colors.get('light_yellow'))
+    root_console.draw_str(center, screen_height - 2, title, bg=None, fg=colors.get('black'))
 
     menu(con, root_console, '', ['Play a new game', 'Continue last game', 'Quit'], 24, screen_width, screen_height)
 
 def level_up_menu(con, root, header, player, menu_width, screen_width, screen_height):
-    options = [f'Constitution (+20 HP, from {player.fighter.max_hp})',
-               f'Strength (+1 attack, from {player.fighter.power})',
-               f'Agility (+1 defense, from {player.fighter.defense}']
+    options = [f'Stubbornness (+20 HP, from {player.fighter.max_hp})',
+               f'Knowledge (+1 attack, from {player.fighter.power})',
+               f'Error Warning (+1 defense, from {player.fighter.defense}']
 
     menu(con, root, header, options, menu_width, screen_width, screen_height)
 
