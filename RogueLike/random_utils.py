@@ -1,10 +1,10 @@
 from numpy.random import choice
 
 def random_choice_from_dict(choice_dict):
-    choice = list(choice_dict.key())
-    chance = list(choice_dict.values())
+    choices = list(choice_dict.keys())
+    chances = list(choice_dict.values())
 
-    decimal_chance = [chance / sum(chance) for chance in chances]
+    decimal_chances = [chance / sum(chances) for chance in chances]
 
     return choice(choices, p=decimal_chances)
 

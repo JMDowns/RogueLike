@@ -195,7 +195,7 @@ def next_floor(player, message_log, dungeon_level, constants):
     entities = [player]
 
     make_map(game_map, constants['max_rooms'], constants['room_min_size'],
-             constants['room_max_size'], constants['map_width'], constants['map_height'], player,
+             constants['room_max_size'], constants['map_width'], constants['map_height'], player, entities,
              constants['colors'])
 
     player.fighter.heal(player.fighter.max_hp // 2)
