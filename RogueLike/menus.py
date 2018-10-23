@@ -52,20 +52,20 @@ def inventory_menu(con, root, header, player, inventory_width, screen_width, scr
 def main_menu(con, root_console, background_image, screen_width, screen_height, colors):
     background_image.blit_2x(root_console, 0, 0)
 
-    title = 'HELLO WORLD!'
+    title = 'DUNGEONS OF DOOM'
     center = (screen_width - len(title)) // 2
-    root_console.draw_str(center, screen_height // 2 - 4, title, bg=None, fg=colors.get('black'))
+    root_console.draw_str(center, screen_height // 2 - 4, title, bg=None, fg=colors.get('white'))
 
     title = 'By the Best Boys K-State'
     center = (screen_width - len(title)) // 2
-    root_console.draw_str(center, screen_height - 2, title, bg=None, fg=colors.get('black'))
+    root_console.draw_str(center, screen_height - 2, title, bg=None, fg=colors.get('white'))
 
     menu(con, root_console, '', ['Play a new game', 'Continue last game', 'Quit'], 24, screen_width, screen_height)
 
 def level_up_menu(con, root, header, player, menu_width, screen_width, screen_height):
-    options = [f'Stubbornness (+20 HP, from {player.fighter.max_hp})',
-               f'Knowledge (+1 attack, from {player.fighter.power})',
-               f'Error Warning (+1 defense, from {player.fighter.defense}']
+    options = [f'Constitution (+20 HP, from {player.fighter.max_hp})',
+               f'Strength (+1 attack, from {player.fighter.power})',
+               f'Agility (+1 defense, from {player.fighter.defense}']
 
     menu(con, root, header, options, menu_width, screen_width, screen_height)
 

@@ -6,10 +6,10 @@ def kill_player(player, colors):
     player.char = '%'
     player.color = colors.get('dark_red')
 
-    return Message('Your program is broken!',colors.get('red')), GameStates.PLAYER_DEAD
+    return Message('You have died!',colors.get('red')), GameStates.PLAYER_DEAD
 
 def kill_monster(monster, colors):
-    death_message = Message(f'The {monster.name.capitalize()} is solved!', colors.get('orange'))
+    death_message = Message(f'The {monster.name.capitalize()} is killed!', colors.get('orange'))
 
     monster.char = '%'
     monster.color = colors.get('dark_red')

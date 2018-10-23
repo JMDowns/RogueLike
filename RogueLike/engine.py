@@ -301,7 +301,7 @@ def main():
     show_main_menu = True
     show_load_error_message = False
 
-    main_menu_background_image = image_load('background.png')
+    main_menu_background_image = image_load('menu_background.png')
 
     while not tdl.event.is_window_closed():
         for event in tdl.event.get():
